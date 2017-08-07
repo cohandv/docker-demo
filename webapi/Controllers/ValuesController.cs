@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace webapi.Controllers
 {
@@ -17,10 +19,10 @@ namespace webapi.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{name}")]
+        public string Get(string name)
         {
-            return "value";
+            return getConfig(name);
         }
 
         // POST api/values
@@ -39,6 +41,17 @@ namespace webapi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        private string getConfig(string name)
+        {
+            var builder = new ConfigurationBuilder()
+             .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+
+            var Configuration = builder.Build();
+
+            return Configuration[name];
         }
     }
 }
