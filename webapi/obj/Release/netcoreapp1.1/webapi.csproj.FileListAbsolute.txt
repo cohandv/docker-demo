@@ -7,3 +7,4 @@ C:\code\siplay\consul-demo\webapi\obj\Release\netcoreapp1.1\webapi.csprojResolve
 C:\code\siplay\consul-demo\webapi\obj\Release\netcoreapp1.1\webapi.AssemblyInfo.cs
 C:\code\siplay\consul-demo\webapi\obj\Release\netcoreapp1.1\webapi.dll
 C:\code\siplay\consul-demo\webapi\obj\Release\netcoreapp1.1\webapi.pdb
+C:\code\siplay\consul-demo\webapi\bin\Release\netcoreapp1.1\consul-info.ctmpl

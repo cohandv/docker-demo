@@ -47,7 +47,7 @@ namespace webapi.Controllers
         {
             var builder = new ConfigurationBuilder()
              .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json");
+            .AddJsonFile("consul-info.json");
 
             var Configuration = builder.Build();
 
