@@ -43,16 +43,6 @@ namespace webapi.Controllers
         public void Delete(int id)
         {
         }
-
-        private string getConfig(string name)
-        {
-            var builder = new ConfigurationBuilder()
-             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("consul-info.json");
-
-            var Configuration = builder.Build();
-
-            return Configuration[name];
-        }
+       
     }
 }

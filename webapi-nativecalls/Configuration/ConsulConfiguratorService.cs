@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Consul;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,15 +11,19 @@ namespace webapi.Configuration
 {
     public class ConsulConfiguratorService : IConfigurationService
     {
-        private const string _consulServer = "consul:8500";
-
-        private static string _lock="does not care";
-
+        private static string _lock = "does not care";
         private static int _refreshTimeInMilliseconds { get; set; }
-        private static Dictionary<string,object> _configurations { get; set; }
+        private static Dictionary<string, object> _configurations { get; set; }
 
-        public ConsulConfiguratorService(int refreshTimeInMilliseconds=1000)
+        private static string _consulServer { get; set; }
+
+        private static string _consulKey {get;set;}
+
+
+        public ConsulConfiguratorService(string consulServer, string consulKey, int refreshTimeInMilliseconds= 1000)
         {
+            _consulServer = consulServer;
+            _consulKey = consulKey;
             _refreshTimeInMilliseconds = refreshTimeInMilliseconds;
             new Thread(new ThreadStart(RefreshConfigs)).Start();
         }
@@ -35,7 +42,16 @@ namespace webapi.Configuration
             do
             {
                 var _tmpConfigurations = new Dictionary<string, object>();
-                _tmpConfigurations.Add("david", "static"+new Random().Next());
+                //_tmpConfigurations.Add("david", "static"+new Random().Next());
+
+                var consulCfg = new ConsulClientConfiguration();
+                consulCfg.Address = new Uri(_consulServer);
+                using (var client = new ConsulClient(consulCfg))
+                {
+                    var getPair = client.KV.Get(_consulKey).GetAwaiter().GetResult();
+                    var data = Encoding.UTF8.GetString(getPair.Response.Value, 0, getPair.Response.Value.Length);
+                    _tmpConfigurations = JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
+                }
 
                 lock (_lock)
                 {
