@@ -24,3 +24,12 @@ services:
       - 80:80
     links:
       - consul
+
+  webapi2:
+    build:
+      context: webapi-nativecalls/
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    links:
+      - consul
