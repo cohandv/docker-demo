@@ -7,6 +7,14 @@ dotnet publish -o ./publish
 2.-Start containers
 docker-compose up --build
 
+TEST
+1.-Open API URL http://172.27.32.152/api/values/david (the initial expected result is pepe as response)
+2.-Open Consul KV and add webapi key: http://172.27.43.251:8500/ui/#/dc1/kv/ and put this value:
+{ "david":"another value"}
+3.-Refresh API url, the response should be another value.
+4.-Try with another variable (you can add another prop instead of david and change it on the URL as well)
+
+
 #If errors with powershell network, remove any existing nat
 get-containernetwork | remove-containernetwork (probably due to the context switch from Linux to Windows containers)
 net stop hns

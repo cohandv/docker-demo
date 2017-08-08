@@ -12,25 +12,23 @@ consul {
 
 }
 
-reload_signal = "SIGKILL"
-kill_signal = "SIGINT"
-max_stale = "10m"
-log_level = "debug"
+max_stale = "1m"
+log_level = "trace"
 
 # This is the quiescence timers; it defines the minimum and maximum amount of
 # time to wait for the cluster to reach a consistent state before rendering a
 # template. This is useful to enable in systems that have a lot of flapping,
 # because it will reduce the the number of times a template is rendered.
 wait {
-  min = "5s"
-  max = "10s"
+  min = "20s"
+  max = "30s"
 }
 
 exec {
   command = "launch.cmd"
-  splay = "5s"
-  kill_signal = "SIGTERM"
-  kill_timeout = "2s"
+  splay = "20s"
+  kill_signal = "SIGKILL"
+  kill_timeout = "10s"
 }
 
 # This block defines the configuration for a template. Unlike other blocks,
@@ -39,8 +37,6 @@ exec {
 template {
   source = "/app/consul-info.ctmpl"
   destination = "/app/consul-info.json"
-  command = "powershell Get-Process | Where-Object {$_.Path -like \"*dotnet*\"} | Stop-Process"
-  command_timeout = "5s"
   perms = 0777
   backup = true
   wait {
