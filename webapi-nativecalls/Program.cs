@@ -13,8 +13,11 @@ namespace webapi
     {
         public static void Main(string[] args)
         {
+            var hostUrl = "http://0.0.0.0:5000";
+
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls(hostUrl)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureServices(services => services.AddAutofac())
                 .UseIISIntegration()

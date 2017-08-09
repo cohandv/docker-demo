@@ -25,7 +25,7 @@ wait {
 }
 
 exec {
-  command = "launch.cmd"
+  command = "dotnet webapi.dll --urls http://0.0.0.0:5000"
   splay = "20s"
   kill_signal = "SIGKILL"
   kill_timeout = "10s"
@@ -35,8 +35,8 @@ exec {
 # this block may be specified multiple times to configure multiple templates.
 # It is also possible to configure templates via the CLI directly.
 template {
-  source = "/app/consul-info.ctmpl"
-  destination = "/app/consul-info.json"
+  source = "/app/publish/consul-info.ctmpl"
+  destination = "/app/publish/consul-info.json"
   perms = 0777
   backup = true
   wait {

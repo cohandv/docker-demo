@@ -1,8 +1,0 @@
-C:\code\siplay\consul-demo\webapi\bin\Debug\netcoreapp1.1\webapi.deps.json
-C:\code\siplay\consul-demo\webapi\bin\Debug\netcoreapp1.1\webapi.runtimeconfig.json
-C:\code\siplay\consul-demo\webapi\bin\Debug\netcoreapp1.1\webapi.runtimeconfig.dev.json
-C:\code\siplay\consul-demo\webapi\bin\Debug\netcoreapp1.1\webapi.dll
-C:\code\siplay\consul-demo\webapi\bin\Debug\netcoreapp1.1\webapi.pdb
-C:\code\siplay\consul-demo\webapi\obj\Debug\netcoreapp1.1\webapi.AssemblyInfo.cs
-C:\code\siplay\consul-demo\webapi\obj\Debug\netcoreapp1.1\webapi.dll
-C:\code\siplay\consul-demo\webapi\obj\Debug\netcoreapp1.1\webapi.pdb

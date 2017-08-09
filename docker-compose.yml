@@ -16,20 +16,36 @@ services:
       - 8400:8400
       - 8500:8500
 
+
+
+  registrator:
+    image: gliderlabs/registrator:latest
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    links:
+      - consul
+    entrypoint:
+      - registrator
+      - consul://consul:8500
+
   webapi:
     build:
       context: webapi/
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 5001:5000
     links:
       - consul
+    volumes:
+      - ./webapi/:/app
 
-  webapi2:
+  webapi-native:
     build:
       context: webapi-nativecalls/
       dockerfile: Dockerfile
     ports:
-      - 80:80
+      - 5000:5000
     links:
       - consul
+    volumes:
+      - ./webapi-nativecalls/:/app

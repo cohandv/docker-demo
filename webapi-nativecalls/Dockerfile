@@ -1,4 +1,3 @@
-FROM microsoft/aspnetcore
+FROM microsoft/dotnet:latest
 WORKDIR /app
-COPY ./publish .
-ENTRYPOINT ["dotnet", "webapi.dll"]
+ENTRYPOINT bash /app/run.sh

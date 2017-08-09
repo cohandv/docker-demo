@@ -25,6 +25,7 @@ namespace webapi.Configuration
             _consulServer = consulServer;
             _consulKey = consulKey;
             _refreshTimeInMilliseconds = refreshTimeInMilliseconds;
+            Build();
             new Thread(new ThreadStart(RefreshConfigs)).Start();
         }
 
@@ -41,25 +42,28 @@ namespace webapi.Configuration
         {
             do
             {
-                var _tmpConfigurations = new Dictionary<string, object>();
-                //_tmpConfigurations.Add("david", "static"+new Random().Next());
-
-                var consulCfg = new ConsulClientConfiguration();
-                consulCfg.Address = new Uri(_consulServer);
-                using (var client = new ConsulClient(consulCfg))
-                {
-                    var getPair = client.KV.Get(_consulKey).GetAwaiter().GetResult();
-                    var data = Encoding.UTF8.GetString(getPair.Response.Value, 0, getPair.Response.Value.Length);
-                    _tmpConfigurations = JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
-                }
-
-                lock (_lock)
-                {
-                    _configurations = _tmpConfigurations;
-                }
+                Build();
 
                 Thread.Sleep(_refreshTimeInMilliseconds);
             } while (true);
+        }
+
+        private static void Build()
+        {
+            var _tmpConfigurations = new Dictionary<string, object>();
+            var consulCfg = new ConsulClientConfiguration();
+            consulCfg.Address = new Uri(_consulServer);
+            using (var client = new ConsulClient(consulCfg))
+            {
+                var getPair = client.KV.Get(_consulKey).GetAwaiter().GetResult();
+                var data = Encoding.UTF8.GetString(getPair.Response.Value, 0, getPair.Response.Value.Length);
+                _tmpConfigurations = JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
+            }
+
+            lock (_lock)
+            {
+                _configurations = _tmpConfigurations;
+            }
         }
     }
 }

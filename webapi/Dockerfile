@@ -1,7 +1,3 @@
-FROM microsoft/aspnetcore
+FROM microsoft/dotnet:latest
 WORKDIR /app
-COPY ./publish .
-COPY ./consul-template .
-COPY launch.cmd .
-#ENTRYPOINT ["dotnet", "webapi.dll"]
-ENTRYPOINT c:\app\consul-template.exe -config "config.hcl"
+ENTRYPOINT bash /app/run.sh
