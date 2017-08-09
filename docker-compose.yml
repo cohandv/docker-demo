@@ -16,7 +16,16 @@ services:
       - 8400:8400
       - 8500:8500
 
-
+  fabio:
+    build:
+      context: fabio/
+      dockerfile: Dockerfile
+    hostname: fabio
+    ports:
+      - 9998:9998
+      - 9999:9999
+    links:
+      - consul
 
   registrator:
     image: gliderlabs/registrator:latest
@@ -26,6 +35,7 @@ services:
       - consul
     entrypoint:
       - registrator
+      - "-ip=172.24.48.1"
       - consul://consul:8500
 
   webapi:
@@ -38,14 +48,24 @@ services:
       - consul
     volumes:
       - ./webapi/:/app
+    environment:
+      - SERVICE_TAGS=urlprefix-/classic strip=/classic
+      - SERVICE_5000_CHECK_HTTP=/api/values
+      - SERVICE_5000_CHECK_INTERVAL=15s
+      - SERVICE_5000_CHECK_TIMEOUT=1s
 
   webapi-native:
     build:
       context: webapi-nativecalls/
       dockerfile: Dockerfile
     ports:
-      - 5000:5000
+      - 5000
     links:
       - consul
     volumes:
       - ./webapi-nativecalls/:/app
+    environment:
+      - SERVICE_TAGS=urlprefix-/native strip=/native
+      - SERVICE_5000_CHECK_HTTP=/api/values
+      - SERVICE_5000_CHECK_INTERVAL=15s
+      - SERVICE_5000_CHECK_TIMEOUT=1s
