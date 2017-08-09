@@ -43,11 +43,9 @@ services:
       context: webapi/
       dockerfile: Dockerfile
     ports:
-      - 5001:5000
+      - 5000
     links:
       - consul
-    volumes:
-      - ./webapi/:/app
     environment:
       - SERVICE_TAGS=urlprefix-/classic strip=/classic
       - SERVICE_5000_CHECK_HTTP=/api/values
@@ -62,8 +60,6 @@ services:
       - 5000
     links:
       - consul
-    volumes:
-      - ./webapi-nativecalls/:/app
     environment:
       - SERVICE_TAGS=urlprefix-/native strip=/native
       - SERVICE_5000_CHECK_HTTP=/api/values
