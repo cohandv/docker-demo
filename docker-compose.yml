@@ -35,7 +35,7 @@ services:
       - consul
     entrypoint:
       - registrator
-      - "-ip=172.24.48.1"
+      - "-ip=172.18.0.1"
       - consul://consul:8500
 
   webapi:
