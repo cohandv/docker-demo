@@ -1,11 +1,6 @@
-Open UI http://172.23.223.116:8500/ui/#/dc1/services (change the IP by the one used by docker on your local installation)
-
-
-1.-Build the dotnet app (inside the folders webapi*)
-dotnet restore
-dotnet publish -o ./publish
+BUILD & RUN
+1.-docker-compose build .
 2.-Start containers (in cmd set COMPOSE_CONVERT_WINDOWS_PATHS=1)
-docker-compose up --build
 
 TEST
 1.-Open API URL http://172.27.32.152/api/values/david (the initial expected result is pepe as response)
@@ -13,18 +8,15 @@ TEST
 { "david":"another value"}
 3.-Refresh API url, the response should be another value.
 4.-Try with another variable (you can add another prop instead of david and change it on the URL as well)
+5.-Scale the app docker-compose scale webapi=20
 
 ROUTES
-fabio console: http://localhost:9998/routes
-http://localhost:9998/api/routes (sin ui)
-fabio svc: http://localhost:9999/classic/api/values (http://localhost:9999/classic/api/values/david) y tambien con native
-consul: http://localhost:8500/ui
-one service: http://localhost:32773/api/values
-
-docker-compose scale webapi=20
+Fabio console: http://localhost:9998/routes
+Fabio exposed svc's: http://localhost:9999/classic/api/values (http://localhost:9999/classic/api/values/<<value>>) 
+Consul console: http://localhost:8500/ui
 
 
-#If errors with powershell network, remove any existing nat
+#If errors, with powershell network, remove any existing nat
 get-containernetwork | remove-containernetwork (probably due to the context switch from Linux to Windows containers)
 net stop hns
 del "C:\ProgramData\Microsoft\Windows\HNS\HNS.data"
